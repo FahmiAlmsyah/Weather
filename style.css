@@ -5,6 +5,10 @@
     font-family: "Poppins", serif;
 }
 
+body{
+    height: 110vh;
+}
+
 .header {
     display: flex;
     justify-content: center;
