@@ -21,20 +21,54 @@
       crossorigin="anonymous"
     />
 
+    <!-- font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body>
     <div class="container">
       <div class="header">
         <div class="container-card">
           <div class="search-box">
-            <input type="text" class="form-control" placeholder="Search" />
+            <form id="search-form" action="javascript:void(0);">
+              <input
+                type="text"
+                class="form-control"
+                id="search-input"
+                placeholder="Search"
+              />
+              <button type="submit" style="display: none">Search</button>
+            </form>
+            <ul
+              id="suggestions-list"
+              style="list-style-type: none; padding: 0; margin-top: 10px"
+            ></ul>
           </div>
 
           <div class="weather-info">
-            <div class="location">Bandung, ID</div>
-            <div id="temperature" class="temperature">24°</div>
-            <div id="condition" class="weather-condition">Partly Cloudy</div>
+            <div class="location">
+              <i style="color: #0077be" class="fa-solid fa-location-dot"></i>
+              <span id="loc">Surabaya, Indonesia</span>
+              <span id="condIcon">☁️</span>
+            </div>
+            <div id="temperature" class="temperature">0&deg;</div>
+            <div id="cond" class="weather-condition">Unknown</div>
           </div>
+        </div>
+      </div>
+
+      <div class="hourly margin">
+        <div class="card-hourly">
+          <div class="d-flex border-bottom gap-2 mb-2">
+            <div class="text"><i class="fa-solid fa-cloud"></i></div>
+            <div class="text">HOURLY WEATHER CONDITION</div>
+          </div>
+          <div class="d-flex all" id="weatherHourly"></div>
         </div>
       </div>
 
@@ -45,15 +79,7 @@
               <div class="text"><i class="fa-solid fa-calendar-days"></i></div>
               <div class="text">7 DAYS FORECAST</div>
             </div>
-            <div class="d-flex justify-content-between gap-2 border-bottom mt-4">
-              <div class="days">Mon, 06 Jan</div>
-              <div class="d-flex gap-2">
-                <div class="days">🌤️</div>
-                <div class="days">90</div>
-                <div class="days">/</div>
-                <div class="days">30&deg;</div>
-              </div>
-            </div>
+            <div id="forecast"></div>
           </div>
         </div>
 
@@ -61,56 +87,59 @@
           <div class="row row-cols-2 row-gap-5">
             <div class="col">
               <div class="card-feel-1">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 align-items-center">
                   <div>
                     <i class="fa-solid fa-water"></i>
                   </div>
                   <div>HUMIDITY</div>
                 </div>
-                <div class="temp" id="humidity">90</div>
+                <div class="temp" id="humidity"></div>
               </div>
             </div>
             <div class="col">
               <div class="card-feel">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 align-items-center">
                   <div>
                     <i class="fa-solid fa-wind"></i>
                   </div>
                   <div>WIND</div>
                 </div>
-                <div class="temp" id="wind">65</div>
+                <div class="temp" id="wind"></div>
               </div>
             </div>
             <div class="col">
               <div class="card-feel-sun">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 align-items-center">
                   <div>
                     <i class="fa-solid fa-moon"></i>
                   </div>
                   <div>Sunset</div>
                 </div>
-                <div class="temp" id="sunset">05:07</div>
+                <div class="temp" id="sunset"></div>
 
-                <div class="sunset">
-                  <div id="sunrise">Sunset: 06:05</div>
+                <div class="sunrise">
+                  <div id="sunrise"></div>
                 </div>
               </div>
             </div>
             <div class="col">
               <div class="card-feel-1">
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 align-items-center">
                   <div>
                     <i class="fa-solid fa-temperature-three-quarters"></i>
                   </div>
                   <div>FEELS LIKE</div>
                 </div>
-                <div class="temp" id="feelLike">70</div>
+                <div class="temp" id="feelLike"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      <footer>
+        <div class="text-center" id="footer" style="color: white; padding: 20px; font-size: 1rem; text-shadow: 1px 1px 2px black;">Weather For Surabaya, Indonesia</div>
+      </footer>
     </div>
 
     <!-- Bootstrap js -->
@@ -120,16 +149,7 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- index js -->
     <script src="index.js"></script>
     <script src="wmocode.js"></script>
-    <!-- font awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
   </body>
 </html>
