@@ -27,6 +27,36 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
     currentHumidity.innerHTML = mathHumidity + "%";
     currentWind.innerHTML = mathWind + "km/h";
     currentTempFeel.innerHTML = mathTempFeel + "&deg;";
+
+    // HOURLY WEATHER
+    const weatherHourly = document.querySelector("#weatherHourly");
+    weatherHourly.innerHTML = "";
+    const currentHour = new Date(data.current.time).getHours();
+    const currentTimeIndex = data.hourly.time.findIndex((time) => {
+      const hour = new Date(time).getHours();
+      return hour === currentHour;
+    });
+    const futureData = data.hourly.time.slice(
+        currentTimeIndex,
+        currentTimeIndex + 24
+      );
+      futureData.forEach((time, i) => {
+        const hour = new Date(time).getHours();
+        const loopedCode = data.hourly.weather_code[currentTimeIndex + i];
+        const tempHourly = Math.round(
+          data.hourly.temperature_2m[currentTimeIndex + i]
+        );
+  
+        const label = i === 0 ? "NOW" : hour;
+  
+        weatherHourly.innerHTML += `
+      <div class="d-flex flex-column gap-3 align-items-center" style="max-width: fit-content">
+        <div class="hourly">${label}</div>
+        <div class="hourly cl">${code[loopedCode].icon}</div>
+        <div class="hourly">${tempHourly}&deg;</div>
+      </div>
+      `;
+      });
     } catch (error) {
         console.log(error);
       }
