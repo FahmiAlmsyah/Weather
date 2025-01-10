@@ -1,3 +1,45 @@
+const searchInput = document.querySelector("#search-input");
+const searchForm = document.querySelector("#search-form");
+const suggestionsList = document.querySelector("#suggestions-list");
+
+// MENAMPILKAN LIST SUGGESTIONS
+searchInput.addEventListener("input", function () {
+    const searchQuery = searchInput.value;
+    suggestionsList.innerHTML = "";
+  
+    if (searchQuery.length > 2) {
+      fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}&count=5&language=en&format=json`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.results && data.results.length > 0) {
+            data.results.forEach((result) => {
+              const suggestionItem = document.createElement("li");
+              suggestionItem.textContent = `${result.name}, ${result.country}`;
+  
+              suggestionItem.addEventListener("click", function () {
+                searchInput.value = `${result.name}, ${result.country}`;
+                suggestionsList.innerHTML = "";
+                getWeather(result.latitude, result.longitude);
+  
+                const locationElement = document.querySelector("#loc");
+                locationElement.textContent = `${result.name}, ${result.country}`;
+  
+                // Footer
+                const footer = document.querySelector("#footer");
+                footer.textContent = `Weather For ${result.name}, ${result.country}`;
+                searchInput.value = "";
+              });
+  
+              suggestionsList.appendChild(suggestionItem);
+            });
+          }
+        })
+        .catch((error) => console.error("Error data tidak ditemukan", error));
+    }
+  });
+
 async function getWeather(latitude = -7.2492, longitude = 112.7508) {
     try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`;
