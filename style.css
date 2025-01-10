@@ -1,85 +1,139 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", serif;
-}
-
-body {
-  height: 125vh;
-  background-color: #8CD5FF !important;
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.container-card {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 1.8rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  width: 23rem;
-  border: 1px solid #0077be;
-}
-
-.search-box {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 30px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.weather-info {
-  text-align: center;
-}
-
-.location {
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-.temperature {
-  font-size: 4rem;
-  font-weight: bold;
-  color: #0077be;
-  margin: 1rem 0;
-}
-
-.weather-condition {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 1.2rem;
-}
-
-.card-fore {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", serif;
+  }
+  
+  body {
+    height: 125vh;
+    background-color: #8CD5FF !important;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .container-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.8rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 23rem;
+    border: 1px solid #0077be;
+  }
+  
+  .search-box {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .search-box input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+  }
+  
+  #suggestions-list {
+    background-color: #0077be;
+    color: white;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 1000;
+    max-height: 220px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  
+  #suggestions-list li {
+    padding: 15px;
+    cursor: pointer;
+  }
+  
+  #suggestions-list li:hover {
+    background-color: #0066a2;
+  }
+  
+  .weather-info {
+    text-align: center;
+  }
+  
+  .location {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .temperature {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #0077be;
+    margin: 1rem 0;
+  }
+  
+  .weather-condition {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+  }
+  
+  .card-fore,
+  .card-hourly {
+    border-radius: 16px;
+  }
+  
+  .card-fore {
     background-color: #0077be;
     padding: 1.8rem;
     color: white;
-    border-radius: 16px;
   }
-
-.card-feel,
-.card-feel-1 {
-  padding: 1.8rem;
-  border-radius: 16px;
-  height: 12.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: all 400ms ease;
-}
-
-.card-feel-sun {
+  
+  .card-hourly {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 1.2rem;
+    color: #0077be;
+    border: 1px solid;
+  }
+  
+  .all {
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 3rem;
+  }
+  
+  .hourly {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .hourly .cl {
+    font-size: 22px;
+  }
+  
+  .card-feel,
+  .card-feel-1 {
+    padding: 1.8rem;
+    border-radius: 16px;
+    height: 12.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 400ms ease;
+  }
+  
+  .card-feel:hover,
+  .card-feel-1:hover,
+  .card-feel-sun:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 1.5rem 0.1rem #333;
+  }
+  
+  .card-feel-sun {
     padding: 1.8rem;
     border-radius: 16px;
     height: 12.5rem;
@@ -87,36 +141,29 @@ body {
     flex-direction: column;
     transition: all 400ms ease;
   }
-
+  
   .card-feel,
-.card-feel-sun {
-  background-color: #0077be;
-  color: white;
-  border: 1px solid #0077be;
-}
-
-.card-feel:hover,
-.card-feel-1:hover,
-.card-feel-sun:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 1.5rem 0.1rem #333;
-}
-
-.card-feel-1 {
+  .card-feel-sun {
+    background-color: #0077be;
+    color: white;
+    border: 1px solid #0077be;
+  }
+  
+  .sunrise {
+    margin-top: auto;
+  }
+  
+  .card-feel-1 {
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     color: #333;
     border: 1px solid #0077be;
   }
-
-  .sunset {
-    margin-top: auto;
-  }
-
+  
   .align {
     align-content: center;
   }
-
+  
   .temp {
     font-size: 2vw;
   }
@@ -128,10 +175,38 @@ body {
   .days {
     font-size: 1.2rem;
   }
-
+  
+  .margin {
+    margin-top: 2.5rem !important;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .align {
+      margin: 2rem 0 !important;
+    }
+  
+    .margin {
+      margin-top: 2rem !important;
+    }
+  }
+  
   @media screen and (max-width: 768px) {
+    .margin {
+      margin-top: 1rem !important;
+    }
   
     .temp {
       font-size: 1.7rem;
     }
+  
+    .all {
+      gap: 1.5rem !important;
+    }
   }
+  
+  @media screen and (max-width: 370px) {
+    .temp  {
+      font-size: 1.3rem;
+    }
+  }
+  
