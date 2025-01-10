@@ -109,3 +109,15 @@ body {
   .align {
     align-content: center;
   }
+
+  .temp {
+    font-size: 2vw;
+  }
+  
+  .text {
+    font-size: 12px;
+  }
+  
+  .days {
+    font-size: 1.2rem;
+  }
