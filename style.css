@@ -61,6 +61,13 @@ body {
   margin-bottom: 1.2rem;
 }
 
+.card-fore {
+    background-color: #0077be;
+    padding: 1.8rem;
+    color: white;
+    border-radius: 16px;
+  }
+
 .card-feel,
 .card-feel-1 {
   padding: 1.8rem;
