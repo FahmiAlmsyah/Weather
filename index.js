@@ -4,45 +4,74 @@ const suggestionsList = document.querySelector("#suggestions-list");
 
 // MENAMPILKAN LIST SUGGESTIONS
 searchInput.addEventListener("input", function () {
-    const searchQuery = searchInput.value;
-    suggestionsList.innerHTML = "";
-  
-    if (searchQuery.length > 2) {
-      fetch(
-        `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}&count=5&language=en&format=json`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.results && data.results.length > 0) {
-            data.results.forEach((result) => {
-              const suggestionItem = document.createElement("li");
-              suggestionItem.textContent = `${result.name}, ${result.country}`;
-  
-              suggestionItem.addEventListener("click", function () {
-                searchInput.value = `${result.name}, ${result.country}`;
-                suggestionsList.innerHTML = "";
-                getWeather(result.latitude, result.longitude);
-  
-                const locationElement = document.querySelector("#loc");
-                locationElement.textContent = `${result.name}, ${result.country}`;
-  
-                // Footer
-                const footer = document.querySelector("#footer");
-                footer.textContent = `Weather For ${result.name}, ${result.country}`;
-                searchInput.value = "";
-              });
-  
-              suggestionsList.appendChild(suggestionItem);
+  const searchQuery = searchInput.value;
+  suggestionsList.innerHTML = "";
+
+  if (searchQuery.length > 2) {
+    fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}&count=5&language=en&format=json`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.results && data.results.length > 0) {
+          data.results.forEach((result) => {
+            const suggestionItem = document.createElement("li");
+            suggestionItem.textContent = `${result.name}, ${result.country}`;
+
+            suggestionItem.addEventListener("click", function () {
+              searchInput.value = `${result.name}, ${result.country}`;
+              suggestionsList.innerHTML = "";
+              getWeather(result.latitude, result.longitude);
+
+              const locationElement = document.querySelector("#loc");
+              locationElement.textContent = `${result.name}, ${result.country}`;
+
+              // Footer
+              const footer = document.querySelector("#footer");
+              footer.textContent = `Weather For ${result.name}, ${result.country}`;
+              searchInput.value = "";
             });
-          }
-        })
-        .catch((error) => console.error("Error data tidak ditemukan", error));
-    }
-  });
+
+            suggestionsList.appendChild(suggestionItem);
+          });
+        }
+      })
+      .catch((error) => console.error("Error data tidak ditemukan", error));
+  }
+});
+
+// SUBMIT FORM
+searchForm.addEventListener("submit", function () {
+  const searchQuery = searchInput.value;
+
+  if (searchQuery.length > 2) {
+    fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}&count=1&language=en&format=json`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.results && data.results.length > 0) {
+          const firstResult = data.results[0];
+          const latitude = firstResult.latitude;
+          const longitude = firstResult.longitude;
+
+          const location = document.querySelector("#loc");
+          location.textContent = `${firstResult.name}, ${firstResult.country}`;
+          // Footer
+          const footer = document.querySelector("#footer");
+          footer.textContent = `Weather For ${firstResult.name}, ${firstResult.country}`;
+          getWeather(latitude, longitude);
+        }
+      })
+      .catch((error) => console.error("Error data tidak ditemukan", error));
+  }
+  searchInput.value = "";
+  suggestionsList.innerHTML = "";
+});
 
 async function getWeather(latitude = -7.2492, longitude = 112.7508) {
-    try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`;
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,rain,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`;
     const response = await fetch(url);
     const data = await response.json();
 
@@ -79,28 +108,28 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
       return hour === currentHour;
     });
     const futureData = data.hourly.time.slice(
-        currentTimeIndex,
-        currentTimeIndex + 24
+      currentTimeIndex,
+      currentTimeIndex + 24
+    );
+    futureData.forEach((time, i) => {
+      const hour = new Date(time).getHours();
+      const loopedCode = data.hourly.weather_code[currentTimeIndex + i];
+      const tempHourly = Math.round(
+        data.hourly.temperature_2m[currentTimeIndex + i]
       );
-      futureData.forEach((time, i) => {
-        const hour = new Date(time).getHours();
-        const loopedCode = data.hourly.weather_code[currentTimeIndex + i];
-        const tempHourly = Math.round(
-          data.hourly.temperature_2m[currentTimeIndex + i]
-        );
-  
-        const label = i === 0 ? "NOW" : hour;
-  
-        weatherHourly.innerHTML += `
-      <div class="d-flex flex-column gap-3 align-items-center" style="max-width: fit-content">
-        <div class="hourly">${label}</div>
-        <div class="hourly cl">${code[loopedCode].icon}</div>
-        <div class="hourly">${tempHourly}&deg;</div>
-      </div>
-      `;
-      });
 
-       // sunset sunrise element
+      const label = i === 0 ? "NOW" : hour;
+
+      weatherHourly.innerHTML += `
+    <div class="d-flex flex-column gap-3 align-items-center" style="max-width: fit-content">
+      <div class="hourly">${label}</div>
+      <div class="hourly cl">${code[loopedCode].icon}</div>
+      <div class="hourly">${tempHourly}&deg;</div>
+    </div>
+    `;
+    });
+
+    // sunset sunrise element
     const sunrise = document.querySelector("#sunrise");
     const sunset = document.querySelector("#sunset");
     const todaySunrise = new Date(data.daily.sunrise[0]).toLocaleTimeString(
@@ -143,7 +172,9 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
               </div>
         `;
     });
-    } catch (error) {
-        console.log(error);
-      }
-    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+getWeather();
