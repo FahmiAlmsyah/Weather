@@ -72,6 +72,35 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
     });
     sunrise.innerHTML = `Sunrise: ${todaySunrise}`;
     sunset.innerHTML = todaySunset;
+
+    // looping 7 forecast
+    const forecast = document.querySelector("#forecast");
+    forecast.innerHTML = "";
+    data.daily.time.forEach((time, i) => {
+      const formattedDate = new Date(time).toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "2-digit",
+      });
+
+      const loopedCode = data.daily.weather_code[i];
+      const minTemp = Math.round(data.daily.temperature_2m_min[i]);
+      const maxTemp = Math.round(data.daily.temperature_2m_max[i]);
+
+      forecast.innerHTML += `
+        <div
+                class="d-flex justify-content-between gap-2 border-bottom mt-4"
+              >
+                <div class="days">${formattedDate}</div>
+                <div class="d-flex gap-2">
+                  <div class="days">${code[loopedCode].icon}</div>
+                  <div class="days">${minTemp}</div>
+                  <div class="days">/</div>
+                  <div class="days">${maxTemp}&deg;</div>
+                </div>
+              </div>
+        `;
+    });
     } catch (error) {
         console.log(error);
       }
