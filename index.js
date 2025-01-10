@@ -9,6 +9,13 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
     const currentHumidity = document.querySelector("#humidity");
     const currentWind = document.querySelector("#wind");
     const currentTempFeel = document.querySelector("#feelLike");
+
+    // Condition
+    const currentCond = document.querySelector("#cond");
+    const condIcon = document.querySelector("#condIcon");
+    const currentCode = data.current.weather_code;
+    currentCond.innerHTML = code[currentCode].description;
+    condIcon.innerHTML = code[currentCode].icon;
     } catch (error) {
         console.log(error);
       }
