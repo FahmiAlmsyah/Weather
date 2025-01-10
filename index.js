@@ -16,6 +16,17 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
     const currentCode = data.current.weather_code;
     currentCond.innerHTML = code[currentCode].description;
     condIcon.innerHTML = code[currentCode].icon;
+
+    // Math
+    const mathTemp = Math.round(data.current.temperature_2m);
+    const mathHumidity = Math.round(data.current.relative_humidity_2m);
+    const mathWind = Math.round(data.current.wind_speed_10m);
+    const mathTempFeel = Math.round(data.current.apparent_temperature);
+
+    currentTemp.innerHTML = mathTemp + "&deg;";
+    currentHumidity.innerHTML = mathHumidity + "%";
+    currentWind.innerHTML = mathWind + "km/h";
+    currentTempFeel.innerHTML = mathTempFeel + "&deg;";
     } catch (error) {
         console.log(error);
       }
