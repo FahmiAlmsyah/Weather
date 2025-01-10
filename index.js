@@ -57,6 +57,21 @@ async function getWeather(latitude = -7.2492, longitude = 112.7508) {
       </div>
       `;
       });
+
+       // sunset sunrise element
+    const sunrise = document.querySelector("#sunrise");
+    const sunset = document.querySelector("#sunset");
+    const todaySunrise = new Date(data.daily.sunrise[0]).toLocaleTimeString(
+      [],
+      { hour: "2-digit", minute: "2-digit", hourCycle: "h23" }
+    );
+    const todaySunset = new Date(data.daily.sunset[0]).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    });
+    sunrise.innerHTML = `Sunrise: ${todaySunrise}`;
+    sunset.innerHTML = todaySunset;
     } catch (error) {
         console.log(error);
       }
